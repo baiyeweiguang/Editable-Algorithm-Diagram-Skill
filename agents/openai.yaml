@@ -1,0 +1,5 @@
+interface:
+  display_name: "Editable Algorithm Diagram PPT"
+  short_description: "Turn raw algorithms into editable PPT architecture diagrams"
+  brand_color: "#4F7BAC"
+  default_prompt: "Use $algorithm-diagram-ppt to turn my algorithm description into an editable PowerPoint architecture diagram."
