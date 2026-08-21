@@ -4,7 +4,7 @@ Read this reference after a usable layout draft exists and before assembling the
 
 ## Classify every element
 
-| Recreate with native PowerPoint | Use a separate raster subfigure |
+| Recreate with native PowerPoint | Use a separate vector or raster subfigure |
 | --- | --- |
 | outer panels and cards | attention or transformer internals |
 | titles and labels | camera projection/frustum geometry |
@@ -42,10 +42,11 @@ Use the simplest style that explains the mechanism. A complex mechanism may just
 ## Preferred sourcing order
 
 1. Reuse a user-provided asset when it is accurate and visually compatible.
-2. Generate a purpose-built subfigure with the image-generation tool.
-3. Use web search for official, public-domain, or clearly reusable scientific material when generation is unsuitable.
+2. For icons, ML/system mechanisms, mathematical diagrams, and reusable architecture templates, read [opentikz-asset-reuse.md](opentikz-asset-reuse.md) and search the vendored OpenTikZ catalog. Use only an exact or close semantic match.
+3. Generate a purpose-built subfigure with the image-generation tool.
+4. Use web search for official, public-domain, or clearly reusable scientific material when generation is unsuitable.
 
-Do not copy a paper figure merely because it is convenient. When a web image is used, preserve its source URL in speaker notes.
+OpenTikZ is optional: if it has no faithful match, continue immediately to the existing fallback paths. Pure equations still use [latex-formula-in-pptx.md](latex-formula-in-pptx.md). Do not copy a paper figure merely because it is convenient. When a web or OpenTikZ asset is used, preserve its source URL or item path in speaker notes.
 
 ## Subfigure prompt template
 
@@ -82,7 +83,7 @@ Before insertion:
 2. follow [transparent-background-preparation.md](transparent-background-preparation.md) to convert the outer white or near-white canvas to a verified alpha channel;
 3. crop excessive transparent margins without cutting axes, arrows, or uncertainty contours;
 4. keep the source aspect ratio;
-5. use PNG for line art and transparency;
+5. preserve a validated reusable SVG as SVG; use PNG for generated raster line art and transparency;
 6. give files semantic names such as `attention.png`, `camera_projection.png`, and `probability_distribution.png`;
 7. embed bytes in the PPTX and give each image a descriptive object name and alt text.
 
