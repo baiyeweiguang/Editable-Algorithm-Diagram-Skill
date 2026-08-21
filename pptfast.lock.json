@@ -1,9 +1,0 @@
-{
-  "package": "@liustack/pptfast",
-  "version": "0.20.0",
-  "upstream_repository": "https://github.com/liustack/pptfast",
-  "upstream_commit": "7482c83436531530b46003ccdab62b1fa8c97969",
-  "ir_version": 4,
-  "node": ">=22.19",
-  "license": "MIT"
-}
