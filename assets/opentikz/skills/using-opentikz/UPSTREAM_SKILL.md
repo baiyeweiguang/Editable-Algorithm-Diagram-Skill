@@ -10,10 +10,11 @@ nets, encoder-decoder, training pipelines, system block diagrams, flowcharts),
 and full **examples**. This skill is how you go from a user's request to a
 finished, compiling `.tex` figure — reliably, and without guessing.
 
-This vendored copy is a compact, read-only runtime subset. Use it in Mode A for
-asset discovery and adaptation. Mode B requires a full checkout of the upstream
-OpenTikZ repository because contributor tooling and repository metadata are not
-packaged here.
+This vendored copy is a compact, read-only runtime subset. It retains the runtime
+tools needed for discovery, rendering, catalog building, and validation. Use it
+in Mode A for asset discovery and adaptation. Mode B still requires a full
+checkout of the upstream OpenTikZ repository because CI, website, and repository
+metadata are not packaged here.
 
 There is **one** skill (this file). Per-template knowledge lives in each
 template's `edit_contract` (inside its `meta.json`), which you read at edit time.

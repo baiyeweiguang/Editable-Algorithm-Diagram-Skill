@@ -2,7 +2,7 @@
   "repository": "https://github.com/opentikz/opentikz",
   "commit": "359befbf8e8af7ce08e7e387b2c2a198e0ca735d",
   "path": "assets/opentikz",
-  "packaging": "research-runtime subset: nested skill, examples, ML/system icons, templates, references",
+  "packaging": "runtime subset: nested OpenTikZ guidance, examples, brand/ML/system icons, templates, references, and tools",
   "code_license": "MIT",
   "content_license": "CC0-1.0"
 }

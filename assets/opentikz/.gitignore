@@ -4,16 +4,15 @@
 /.github/
 /.claude-plugin/
 /assets/
-/icons/brands/
 /skills-demos/
 /site/
 /website/
-/tools/
+
+**/__pycache__/
+*.py[cod]
 
 /CHANGELOG.md
 /CITATION.cff
 /CLAUDE.md
 /CONTRIBUTING.md
 /README.md
-/requirements.txt
-/meta.schema.json

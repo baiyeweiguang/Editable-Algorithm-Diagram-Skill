@@ -2,7 +2,9 @@
 
 Read this reference when an algorithm diagram needs an icon, an ML/system mechanism, a mathematical diagram, or a reusable TikZ architecture template. The vendored OpenTikZ library is a read-only source library at `assets/opentikz/`, pinned to upstream commit `359befbf8e8af7ce08e7e387b2c2a198e0ca735d`.
 
-OpenTikZ is an optional accelerator, not a mandatory visual language. Reuse an item only when it is an exact or close semantic match to the intended subfigure and the layout draft. If the match is weak, continue with the normal subfigure sourcing or generation workflow.
+For advanced OpenTikZ template adaptation, also read the retained upstream guidance at `assets/opentikz/skills/using-opentikz/UPSTREAM_SKILL.md`. It keeps the useful nested-Skill instructions under a filename that the ChatGPT package registry does not mistake for a second top-level Skill.
+
+OpenTikZ is an optional accelerator, not a mandatory visual language. Use its full composition ability rather than treating the catalog as a flat icon picker: a complete subfigure may combine several icons, a template, annotations, layout patterns, palette definitions, and edited TikZ. Reuse components only when their combined semantics can closely match the intended subfigure and the layout draft. If a faithful composition is not reasonable, continue with the normal subfigure sourcing or generation workflow.
 
 ## Routing decision
 
@@ -12,6 +14,7 @@ OpenTikZ is an optional accelerator, not a mandatory visual language. Reuse an i
 | matching OpenTikZ icon | copy the committed SVG and embed it directly |
 | matching template/example with no structural changes | copy its committed `preview.svg` |
 | matching template that needs labels, colors, or supported structural edits | copy the `.tex`, read its `edit_contract`, edit the copy, compile it, and embed the resulting SVG |
+| complex subfigure assembled from several OpenTikZ parts | read `UPSTREAM_SKILL.md`, copy every needed source into the task workspace, compose them in one TikZ coordinate system, compile, and embed the unified SVG |
 | mathematical formula rather than a diagram | use `latex-formula-in-pptx.md`, not OpenTikZ |
 | no sufficiently close OpenTikZ match | continue with web search, deterministic plotting/TikZ, or image generation |
 
@@ -28,6 +31,14 @@ python3 scripts/opentikz_asset.py info --id encoder-decoder
 ```
 
 Search by the requested mechanism, not by a merely related field. Inspect the top few candidates' metadata and SVG previews before choosing. A zero-result or low-quality result is a valid outcome; do not invent an item or force a poor match.
+
+Do not stop after failing to find one finished catalog item with the exact requested name. Search separately for the subfigure's meaningful components—such as model blocks, attention, datasets, matrices, servers, annotations, or an architecture template—and judge whether the retained OpenTikZ guidance supports a faithful composition. Component composition is preferred over a low-information placeholder, but it must not invent unsupported mechanisms.
+
+## Complete subfigure composition
+
+For any subfigure more complex than a single symbol, read `assets/opentikz/skills/using-opentikz/UPSTREAM_SKILL.md` and the relevant `reference/` material. Start from the closest template when one exists; otherwise create a standalone TikZ figure that imports or adapts the selected components. Keep all nodes and connections in one coordinate system, preserve template invariants and semantic node names, use the OpenTikZ palette and spacing rules, and add annotations through its documented patterns. Compile and visually inspect the complete SVG before embedding it as one scientific subfigure object.
+
+The catalog assets are primitives, not a completeness ceiling. It is acceptable—and often preferred—to build a richer, draft-faithful subfigure from several retained assets. It is not acceptable to insert a lone generic icon when the draft requires a mechanism, topology, or multi-stage process.
 
 ## Direct SVG reuse
 
@@ -80,7 +91,7 @@ The helper prefers `latexmk`, falls back to `pdflatex`, then uses `pdftocairo -s
 
 ## Provenance and limits
 
-OpenTikZ code is MIT licensed and its graphic content is CC0 1.0. All distributed copies of this Skill carry the same research-focused runtime subset containing the nested OpenTikZ Skill, examples, ML/system icons, templates, and reference material. Record the repository URL and the selected item path in the slide's `[Sources]` speaker-notes block for traceability, for example:
+OpenTikZ code is MIT licensed and its graphic content is CC0 1.0. All distributed copies of this Skill carry the same runtime subset containing the retained nested OpenTikZ guidance, examples, brand/ML/system icons, templates, reference material, and runtime tools. Record the repository URL and the selected item path in the slide's `[Sources]` speaker-notes block for traceability, for example:
 
 ```text
 [Sources]
@@ -88,9 +99,9 @@ OpenTikZ code is MIT licensed and its graphic content is CC0 1.0. All distribute
 [/Sources]
 ```
 
-Brand assets are intentionally omitted from the compact runtime package. If a brand mark is needed, use an official reusable source, follow the owner's brand rules, and record its source URL.
+Brand icons are retained as reusable diagram assets. Their TikZ implementation may be CC0, but the underlying marks can still be protected trademarks; use them only for identification, follow the owner's brand rules, and do not imply endorsement.
 
-The packaged catalog is strongest for ML and system architecture. It may not contain a faithful Gaussian distribution, probability-density plot, diffusion trajectory, or other requested mathematical diagram. Treat absence as a normal fallback condition and use Matplotlib, purpose-built TikZ, a reusable public-domain vector, or the approved subfigure-generation workflow instead.
+The packaged catalog is strongest for ML, system architecture, and brand icons. It may not contain a faithful Gaussian distribution, probability-density plot, diffusion trajectory, or other requested mathematical diagram. Treat absence as a normal fallback condition and use Matplotlib, purpose-built TikZ, a reusable public-domain vector, or the approved subfigure-generation workflow instead.
 
 ## Maintainer update procedure
 
@@ -106,7 +117,7 @@ rsync -a --delete \
   /tmp/opentikz-upstream/ assets/opentikz/
 ```
 
-The nested `assets/opentikz/skills/using-opentikz/SKILL.md` is an intentional runtime reference and must remain present. Update `opentikz.lock.json` to the reviewed upstream commit, rebuild or filter `catalog.json` so every entry resolves to a retained item, and run:
+The nested guidance at `assets/opentikz/skills/using-opentikz/UPSTREAM_SKILL.md` is an intentional runtime reference and must remain present. Update `opentikz.lock.json` to the reviewed upstream commit, rebuild or filter `catalog.json` so every entry resolves to a retained item, and run:
 
 ```bash
 python3 scripts/opentikz_asset.py validate
