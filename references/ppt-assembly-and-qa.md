@@ -9,8 +9,8 @@ Use the draft as a layout reference. Build the final slide from independent obje
 - native rounded rectangles for panels and inner cards;
 - native text boxes for every visible label;
 - native arrows/connectors for data and control flow;
-- native simple icons, nodes, axes, cluster boundaries, and mini charts;
-- separate embedded true-alpha PNG images only for complex scientific subfigures, unless an opaque canvas is scientifically meaningful.
+- native simple icons, nodes, axes, cluster boundaries, and mini charts only when their geometry remains unambiguous;
+- separate embedded SVG/TikZ objects for geometry-sensitive scientific mechanisms, and true-alpha PNG images for real imagery, heatmaps, textures, or other raster scientific content, unless an opaque canvas is scientifically meaningful.
 
 Never place the entire draft or SVG as a full-slide screenshot. A user must be able to move, recolor, resize, and rewrite the framework without editing a bitmap.
 
@@ -50,8 +50,13 @@ Render every slide to PNG at full-slide resolution and inspect it individually. 
 
 Check all of the following:
 
-### Semantics
+### Regional fidelity and semantics
 
+- crop or isolate corresponding regions from the draft and rendered slide, then compare every major module, complex subfigure, formula/loss area, legend, branch, input, and output;
+- each region depicts the same object and retains its essential information; no real image, formula, mechanism, or scientific plot has been replaced by a lower-information placeholder;
+- formulas and variables present in the source or draft remain present unless the user explicitly removed them;
+- legend markers reuse the actual object's shape, fill, border, and line style;
+- perspective, parallelism, collinearity, grids, and one-to-one node/edge relations remain mathematically coherent in the rendered PowerPoint;
 - module order and arrow direction match the algorithm plan;
 - no required input, branch, or output is missing;
 - subfigures depict the claimed mechanism rather than a generic placeholder;
@@ -93,4 +98,5 @@ Deliver only when:
 - the rendered slide matches the approved hierarchy and flow;
 - all framework objects remain editable;
 - every complex subfigure is embedded and self-contained;
+- every draft region passes the regional fidelity comparison with no lower-information substitution;
 - the final visual review finds no remaining defect.

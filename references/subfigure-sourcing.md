@@ -15,6 +15,8 @@ Read this reference after a usable layout draft exists and before assembling the
 
 The boundary is semantic clarity. If a PowerPoint-native sketch would look generic or misrepresent the mechanism, use a proper subfigure.
 
+Treat strict geometry as a single unit. Sampling grids and offsets, feature-map perspective grids, coordinate transforms, camera projections, trajectories, and one-to-one node/edge systems should normally be authored in one SVG/TikZ coordinate system and embedded as one vector object. Do not scatter their dependent lines and nodes across independent PowerPoint shapes merely to increase editability.
+
 ## Required human-made style families
 
 Every subfigure must belong to one of these familiar scientific styles:
