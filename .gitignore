@@ -1,0 +1,5 @@
+node_modules/
+.pptfast/
+.pptfast-cache/
+*.tmp
+*.log

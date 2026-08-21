@@ -1,10 +1,16 @@
-# Editable PowerPoint assembly and visual QA
+# Presentation finalization and visual QA
 
-Read this reference immediately before loading the Presentations skill and authoring the PPTX.
+Read this reference only after the pptfast preview has been accepted and either a pptfast-unrepresentable correction is required or the final PPTX needs PowerPoint-level validation. Load the Presentations skill at that point. Do not bypass the pptfast IR loop for ordinary layout changes.
+
+## Finalization boundary
+
+Keep `pptfast-base.pptx` unchanged. Apply finalization to a copy and record every operation so it can be replayed after an IR revision. Appropriate operations include replacing a same-aspect preview PNG with its source SVG, correcting a PowerPoint-only rendering defect, adding required object metadata, or making a narrowly scoped adjustment that pptfast cannot represent.
+
+Do not use this stage to rearrange several modules, change the information hierarchy, repair content density, or compensate for a poor component/layout choice. Return those issues to the IR, rerun pptfast, accept the new preview, and then replay finalization.
 
 ## Reconstruction contract
 
-Use the draft as a layout reference. Build the final slide from independent objects:
+Use the accepted pptfast deck as the editable base and the draft as the fidelity reference. Preserve its independent objects:
 
 - native rounded rectangles for panels and inner cards;
 - native text boxes for every visible label;
@@ -12,21 +18,18 @@ Use the draft as a layout reference. Build the final slide from independent obje
 - native simple icons, nodes, axes, cluster boundaries, and mini charts only when their geometry remains unambiguous;
 - separate embedded SVG/TikZ objects for geometry-sensitive scientific mechanisms, and true-alpha PNG images for real imagery, heatmaps, textures, or other raster scientific content, unless an opaque canvas is scientifically meaningful.
 
-Never place the entire draft or SVG as a full-slide screenshot. A user must be able to move, recolor, resize, and rewrite the framework without editing a bitmap.
+Never place the entire draft or a full-slide SVG as a screenshot. A user must be able to move, recolor, resize, and rewrite the framework without editing a bitmap.
 
 ## Authoring sequence
 
-1. Load the available **Presentations** skill and follow its required authoring, rendering, notes, and validation workflow.
-2. Choose the slide size:
-   - match a supplied reference or approved draft;
-   - otherwise use approximately 3:2 for a Word-ready figure;
-   - use 16:9 only when the user emphasizes on-screen presentation.
-3. Establish a coordinate map for outer margins, main panels, gutters, and output region.
-4. Create major flow arrows/connectors first so they stay behind modules.
-5. Add outer panels, then inner cards, then the verified transparent subfigures, then native text.
+1. Load the available **Presentations** skill and follow its editing, rendering, notes, and validation workflow.
+2. Copy the accepted `pptfast-base.pptx` to the working final deck.
+3. Resolve each target through its stable asset/object name; do not select an object by approximate visual position when a semantic ID is available.
+4. For SVG replacement, preserve the preview object's x/y/w/h, crop, rotation, z-order, alt text, and aspect ratio. The SVG source and preview PNG must share the same viewBox ratio and visible bounds.
+5. Apply only the recorded narrow corrections. Store their target, old/new asset, geometry, and rationale in the task finalization manifest or replay script.
 6. Keep related objects named consistently, for example `panel-motion`, `card-attention`, `img-camera`, and `label-output-state`.
-7. Insert images with byte-backed embedding, preserved aspect ratio, meaningful alt text, and no external path dependency.
-8. Put `[Sources]` notes on the slide for user assets, web assets, and non-trivial external claims. Generated subfigures may be described as generated specifically for the diagram.
+7. Insert images with byte-backed embedding, meaningful alt text, and no external path dependency.
+8. Preserve or add `[Sources]` notes for user assets, web assets, OpenTikZ items, and non-trivial external claims.
 9. Export the final PPTX only after rendering and correction.
 
 ## Layout rules learned from reconstruction
