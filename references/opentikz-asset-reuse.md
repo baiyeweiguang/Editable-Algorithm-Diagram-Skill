@@ -80,7 +80,7 @@ The helper prefers `latexmk`, falls back to `pdflatex`, then uses `pdftocairo -s
 
 ## Provenance and limits
 
-OpenTikZ code is MIT licensed and its graphic content is CC0 1.0. Record the repository URL and the selected item path in the slide's `[Sources]` speaker-notes block for traceability, for example:
+OpenTikZ code is MIT licensed and its graphic content is CC0 1.0. All distributed copies of this Skill carry the same research-focused runtime subset containing the nested OpenTikZ Skill, examples, ML/system icons, templates, and reference material. Record the repository URL and the selected item path in the slide's `[Sources]` speaker-notes block for traceability, for example:
 
 ```text
 [Sources]
@@ -88,22 +88,25 @@ OpenTikZ code is MIT licensed and its graphic content is CC0 1.0. Record the rep
 [/Sources]
 ```
 
-Brand marks may still be protected trademarks even though their TikZ implementation is CC0. Use brand icons only for identification, do not imply endorsement, and follow the owner's brand rules.
+Brand assets are intentionally omitted from the compact runtime package. If a brand mark is needed, use an official reusable source, follow the owner's brand rules, and record its source URL.
 
-The current catalog is strongest for ML, system architecture, and brand icons. It may not contain a faithful Gaussian distribution, probability-density plot, diffusion trajectory, or other requested mathematical diagram. Treat absence as a normal fallback condition and use Matplotlib, purpose-built TikZ, a reusable public-domain vector, or the approved subfigure-generation workflow instead.
+The packaged catalog is strongest for ML and system architecture. It may not contain a faithful Gaussian distribution, probability-density plot, diffusion trajectory, or other requested mathematical diagram. Treat absence as a normal fallback condition and use Matplotlib, purpose-built TikZ, a reusable public-domain vector, or the approved subfigure-generation workflow instead.
 
 ## Maintainer update procedure
 
-Normal Skill execution must never update the vendored library. When intentionally updating the Skill repository, use a clean worktree and pull a reviewed upstream revision:
+Normal Skill execution must never update the vendored library. When intentionally updating the Skill repository, check out a reviewed upstream revision in a temporary directory, then synchronize it through the committed packaging exclusions:
 
 ```bash
-git subtree pull \
-  --prefix=assets/opentikz \
-  https://github.com/opentikz/opentikz.git main \
-  --squash
+git clone https://github.com/opentikz/opentikz.git /tmp/opentikz-upstream
+git -C /tmp/opentikz-upstream checkout <reviewed-commit>
+rsync -a --delete \
+  --exclude='/.git/' \
+  --exclude='/.gitignore' \
+  --exclude-from=assets/opentikz/.gitignore \
+  /tmp/opentikz-upstream/ assets/opentikz/
 ```
 
-Then update `opentikz.lock.json` to the reviewed upstream commit and run:
+The nested `assets/opentikz/skills/using-opentikz/SKILL.md` is an intentional runtime reference and must remain present. Update `opentikz.lock.json` to the reviewed upstream commit, rebuild or filter `catalog.json` so every entry resolves to a retained item, and run:
 
 ```bash
 python3 scripts/opentikz_asset.py validate
