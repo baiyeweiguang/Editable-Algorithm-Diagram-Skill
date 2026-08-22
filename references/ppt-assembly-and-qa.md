@@ -1,4 +1,4 @@
-# Editable PowerPoint assembly and visual QA
+# Editable PowerPoint assembly and correction loop
 
 Read this reference after `diagram.ir.json` passes semantic validation and its coordinate/debug SVG has been inspected. Load the Presentations skill and treat the IR as the single source of truth for object identity and geometry.
 
@@ -14,17 +14,19 @@ Use the draft as a layout reference. Build the final slide from independent obje
 
 Never place the entire draft or SVG as a full-slide screenshot. A user must be able to move, recolor, resize, and rewrite the framework without editing a bitmap.
 
+Each visually independent card or list item must be a separate background shape plus a separate text box. Each logical connector, including a multi-bend route, must be one editable PowerPoint connector, freeform polyline, or `custGeom` object. Never simulate one card set with a multiline text box or one polyline with separate line segments.
+
 ## Authoring sequence
 
 1. Load the available **Presentations** skill and follow its required authoring, rendering, notes, and validation workflow.
 2. Choose the slide size from the IR canvas and approved draft. Preserve their aspect ratio; do not independently select another layout ratio.
 3. Resolve parent-relative frames to absolute canvas coordinates, then map them to slide coordinates by one uniform x/y scale. Do not estimate positions from the screenshot during assembly.
 4. Render elements in parent and z-order. Keep connectors behind the modules they connect unless their IR z-order explicitly says otherwise.
-5. Connect the exact `from` and `to` ports and follow explicit waypoints. Do not replace a specified non-center connection with an auto-centered arrow.
+5. Plan connector channels for the full slide, then connect the exact `from` and `to` ports and follow explicit waypoints. Do not replace a specified non-center connection with an auto-centered arrow. Map one IR connector to one PowerPoint object, even when it has several bends.
 6. Use every IR element ID as the corresponding PowerPoint object name whenever the authoring backend permits it.
 7. Insert image assets with byte-backed embedding, preserved aspect ratio, meaningful alt text, and no external path dependency. Honor `contain` or `cover`; reject unrequested stretching.
 8. Put `[Sources]` notes on the slide for user assets, web assets, and non-trivial external claims. Generated subfigures may be described as generated specifically for the diagram.
-9. Export the PPTX, render it, and revise the IR rather than applying unrecorded visual nudges when geometry changes.
+9. Export the PPTX, render it, and enter the observable correction loop below rather than applying unrecorded visual nudges.
 
 ## Layout rules learned from reconstruction
 
@@ -43,53 +45,17 @@ Never place the entire draft or SVG as a full-slide screenshot. A user must be a
 - Embedded scientific subfigures should resemble ordinary PowerPoint/Visio diagrams or MATLAB/Matplotlib exports. If an image looks like an elaborate AI infographic, regenerate it in a simpler approved style before insertion.
 - Output cards should visually reuse the semantic color or miniature representation of the producing module.
 
-## Mandatory visual QA loop
+## Observable correction loop
 
-Render every slide to PNG at full-slide resolution and inspect it individually. A contact sheet alone is insufficient.
+Read and execute [visual-qa-checklist.md](visual-qa-checklist.md). Do not treat this as a one-pass inspection.
 
-Check all of the following:
+1. **Render.** Export the actual PPTX to a full-slide PNG. Also produce enlarged crops for the primary subject, every dense connector junction, repeated-card region, feedback/trigger region, formula area, and complex scientific subfigure.
+2. **Observe.** Inspect the whole-slide image at fit-to-page scale, then the enlarged regions, then trace every semantic connector class. Record visible evidence, not a generic “looks good”.
+3. **Diagnose.** Assign every defect to one layer: `semantic hierarchy`, `IR layout`, `IR routing/style`, `object model`, `asset`, or `renderer`.
+4. **Act.** Correct the owning layer. Change the algorithm plan or group hierarchy when the requested subject lacks prominence; change IR frames/constraints for alignment or overflow; change connector roles, channels, and waypoints for line confusion; split a false multiline-card text box into independent objects; replace segmented polylines with one object; edit only the asset for subfigure defects; correct renderer mappings for PowerPoint-specific drift.
+5. **Verify.** Revalidate the IR, regenerate the debug overlay and PPTX, rerender the whole slide and affected crops, and rerun the checklist. Repeat until no blocking item remains.
 
-### Regional fidelity and semantics
-
-- crop or isolate corresponding regions from the draft and rendered slide, then compare every major module, complex subfigure, formula/loss area, legend, branch, input, and output;
-- each region depicts the same object and retains its essential information; no real image, formula, mechanism, or scientific plot has been replaced by a lower-information placeholder;
-- formulas and variables present in the source or draft remain present unless the user explicitly removed them;
-- legend markers reuse the actual object's shape, fill, border, and line style;
-- perspective, parallelism, collinearity, grids, and one-to-one node/edge relations remain mathematically coherent in the rendered PowerPoint;
-- module order and arrow direction match the algorithm plan;
-- no required input, branch, or output is missing;
-- subfigures depict the claimed mechanism rather than a generic placeholder;
-- data-flow and control-flow line styles are consistent when both exist.
-
-### Typography
-
-- all Chinese text is accurate and uses a compatible font;
-- no title wraps unexpectedly;
-- no text is clipped, shrunk to unreadability, or hidden behind an image;
-- repeated labels use consistent size and weight.
-
-### Geometry
-
-- rendered object bounds match the accepted IR frames within a small explicit tolerance;
-- parent-relative placement has been flattened correctly, so moving a group in the IR does not change its children's internal offsets;
-- panels and cards align to a grid;
-- gutters and outer margins are balanced;
-- arrows start and end at the named IR ports, follow their intended waypoints, and do not cross labels;
-- no object extends outside the slide;
-- no image is distorted or cropped through important content.
-
-### Visual quality
-
-- complex subfigures are crisp at their final displayed size;
-- every raster subfigure has a genuine alpha channel where expected; no opaque white rectangle, baked checkerboard, light halo, clipped pale trace, or accidentally removed enclosed white content remains;
-- inspect transparent subfigures on the actual panel fill and, when edges are ambiguous, on a contrasting temporary background before delivery;
-- every scientific subfigure passes the human-authorship test: regular geometry, restrained colors, limited meaningful elements, and a visual language reproducible in PowerPoint/Visio or MATLAB/Matplotlib;
-- no dense decorative network, glow, glass effect, isometric rendering, excessive micro-detail, arbitrary shape, or unexplained connection remains;
-- line weights and color saturation are consistent; important connectors are visibly thick enough and their arrowheads remain easy to distinguish at fit-to-page scale;
-- the slide remains legible when inserted into Word or viewed at fit-to-page scale; where unused space permits, text has been enlarged, and every text color has sufficient contrast with its rendered background;
-- no draft artifact, watermark, accidental letter, or external-link placeholder remains.
-
-Run the presentation overflow/structure test provided by the Presentations skill. Fix every unintended overlap, overflow, clipping, or wrap, rerender, and inspect again. The absence of a test error does not replace visual review.
+Keep a concise defect log such as `region | visible evidence | layer | edit | verification`. This preserves decisions without relying on untracked visual nudges. Automated overflow and archive tests are necessary but never substitute for rendered visual inspection.
 
 ## Delivery gate
 
@@ -102,4 +68,7 @@ Deliver only when:
 - all framework objects remain editable;
 - every complex subfigure is embedded and self-contained;
 - every draft region passes the regional fidelity comparison with no lower-information substitution;
+- the user-designated primary subject is visually dominant and its input, processing, output, and constraint/destination paths are traceable;
+- repeated cards use independent shape/text pairs, and every logical polyline remains one editable object;
+- the whole-slide, regional zoom, semantic line-tracing, and editability sections of the visual QA checklist pass;
 - the final visual review finds no remaining defect.

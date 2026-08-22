@@ -18,6 +18,8 @@ Use this IR as the single geometric source of truth between the approved draft a
 - Keep one flat `elements` table. Express hierarchy with `parent`; do not duplicate an element inside nested child arrays.
 - Make every coordinate explicit. The renderer may convert units but must not invent placement, alignment, or connector endpoints.
 - Keep text separate from shapes. A colored module panel and its title are two elements sharing a parent group, so either can be edited independently.
+- When the user designates a subject or core module, record its element ID in `metadata.primary_subject_id`. Give that group clear visual priority and include named child regions or ports for its input, processing, output, and constraint/destination paths.
+- A repeated card, capsule, state item, or list item is not one multiline label. Model every item as its own shape/text pair under a shared parent, and use alignment, equal-gap, same-size, and contain constraints to keep the set regular.
 - Treat SVG, PNG, generated scientific subfigures, plots, and formula SVGs uniformly as image assets.
 - Keep complex geometry-sensitive scientific mechanisms as one image asset. Use the IR to place them accurately, not to explode them into fragile PowerPoint primitives.
 
@@ -113,6 +115,10 @@ Connectors reference ports, never approximate centers:
 ```
 
 Waypoints use the connector parent's coordinate system. Omit them only when the route is visually unambiguous. Use explicit waypoints for non-endpoint attachment, crowded branches, and arrows that must avoid labels.
+
+Plan all connector channels before writing individual routes. Use `role` for the semantic class, such as `main-data-flow`, `semantic-flow`, `trigger-flow`, or `feedback-flow`, and use `tags` for an explicit channel identifier when several routes share a region. Adjacent semantic classes should differ in at least two of color, dash, direction, or spatial channel. A module border must not masquerade as a high-contrast data-flow channel.
+
+One logical connection is one IR connector and must become one editable PowerPoint object. Store all bends in that connector's `waypoints`; do not render a polyline as several separate line shapes. If the authoring library lacks a suitable polyline connector, use one native freeform/polyline or `custGeom` object and place the arrowhead only at the final endpoint.
 
 Use constraints to document and validate intended relationships:
 

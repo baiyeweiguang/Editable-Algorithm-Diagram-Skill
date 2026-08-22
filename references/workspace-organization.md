@@ -25,7 +25,7 @@ diagram-work/
 ├── 06-qa/
 │   ├── rendered-final.png
 │   ├── regions/                 # final crops paired with 01-draft/regions
-│   └── qa-notes.md
+│   └── qa-notes.md              # checklist results and observable defect log
 └── deliverable/
     └── diagram-final.pptx
 ```
