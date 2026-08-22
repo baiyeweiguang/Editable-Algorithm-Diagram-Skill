@@ -37,6 +37,8 @@ Never place the entire draft or SVG as a full-slide screenshot. A user must be a
 - Do not stretch images. Use contain/cover intentionally and inspect the crop.
 - Put text above or beside the subfigure, not baked into it.
 - Reduce words before reducing font size. Avoid unexpected three-line wrapping in narrow module headers.
+- Within the no-overflow, no-clipping, and no-occlusion limits, use the largest practical font size instead of conservatively small type. Set text colors for clear contrast against their actual panel fills, and verify the rendered contrast rather than assuming the theme default is readable.
+- Set connector stroke widths and arrowhead sizes explicitly instead of accepting backend defaults. Main-flow arrows and important internal connectors should be proportionally bold and visibly directional at the full-slide scale, while remaining clear of labels and scientific content.
 - Simple cluster boundaries and node groups are often clearer as native shapes than as generated images.
 - Embedded scientific subfigures should resemble ordinary PowerPoint/Visio diagrams or MATLAB/Matplotlib exports. If an image looks like an elaborate AI infographic, regenerate it in a simpler approved style before insertion.
 - Output cards should visually reuse the semantic color or miniature representation of the producing module.
@@ -83,8 +85,8 @@ Check all of the following:
 - inspect transparent subfigures on the actual panel fill and, when edges are ambiguous, on a contrasting temporary background before delivery;
 - every scientific subfigure passes the human-authorship test: regular geometry, restrained colors, limited meaningful elements, and a visual language reproducible in PowerPoint/Visio or MATLAB/Matplotlib;
 - no dense decorative network, glow, glass effect, isometric rendering, excessive micro-detail, arbitrary shape, or unexplained connection remains;
-- line weights and color saturation are consistent;
-- the slide remains legible when inserted into Word or viewed at fit-to-page scale;
+- line weights and color saturation are consistent; important connectors are visibly thick enough and their arrowheads remain easy to distinguish at fit-to-page scale;
+- the slide remains legible when inserted into Word or viewed at fit-to-page scale; where unused space permits, text has been enlarged, and every text color has sufficient contrast with its rendered background;
 - no draft artifact, watermark, accidental letter, or external-link placeholder remains.
 
 Run the presentation overflow/structure test provided by the Presentations skill. Fix every unintended overlap, overflow, clipping, or wrap, rerender, and inspect again. The absence of a test error does not replace visual review.
